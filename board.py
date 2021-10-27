@@ -32,6 +32,19 @@ class Board:
             else:
                 self.red_kings += 1
 
+    def evaluate(self):
+        # get scores of current board situation
+        return self.white_left - self.red_left + (self.white_kings * 1.5 - self.red_kings * 1.5)
+
+    def get_all_pieces(self, color):
+        pieces = []
+        for row in self.board:
+            for piece in row:
+                if piece != 0 and piece.color == color:
+                    pieces.append(piece)
+        # get all current side's pieces to evaluate
+        return pieces
+
     def get_piece(self, row, col):
         # return piece in (row, col) (= 0 if does not have)
         return self.board[row][col]
@@ -78,9 +91,9 @@ class Board:
 
     def winner(self):
         if self.red_left <= 0:
-            return RED
+            return 'White'
         elif self.white_left <= 0:
-            return WHITE
+            return 'Red'
         # haven't end yet
         return None
 
